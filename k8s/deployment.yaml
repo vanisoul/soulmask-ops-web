@@ -1,0 +1,71 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soulmask-ops-web
+  namespace: soulmask
+  labels:
+    app: soulmask-ops-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soulmask-ops-web
+  template:
+    metadata:
+      labels:
+        app: soulmask-ops-web
+    spec:
+      serviceAccountName: soulmask-ops-web
+      containers:
+        - name: soulmask-ops-web
+          image: vanisoul/soulmask-ops-web:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NAMESPACE
+              value: "soulmask"
+            - name: DEPLOYMENT
+              value: "soulmask"
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 10
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: soulmask-ops-web
+  namespace: soulmask
+  labels:
+    app: soulmask-ops-web
+spec:
+  type: ClusterIP
+  selector:
+    app: soulmask-ops-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP

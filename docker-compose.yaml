@@ -1,0 +1,18 @@
+services:
+  soulmask-ops-web:
+    build:
+      context: .
+      args:
+        VERSION: "1.0.0"
+    image: soulmask-ops-web:1.0.0
+    container_name: soulmask-ops-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NAMESPACE=soulmask
+      - DEPLOYMENT=soulmask
+      - PORT=3000
+      - KUBECONFIG=/root/.kube/config
+    volumes:
+      - ${KUBECONFIG:-~/.kube/config}:/root/.kube/config:ro
+    restart: unless-stopped
