@@ -2,7 +2,7 @@
 set -e
 
 # 設定變數
-DOCKER_USER="${DOCKER_USER:-vanisoul}"
+DOCKER_USER="${DOCKER_USER:-ga2006088445}"
 IMAGE_NAME="soulmask-ops-web"
 VERSION="${1:-latest}"
 

@@ -1,0 +1,12 @@
+node_modules
+.git
+.gitignore
+k8s
+docker-compose.yaml
+build.sh
+Dockerfile
+.dockerignore
+.omc
+*.md
+.env
+.env.*
