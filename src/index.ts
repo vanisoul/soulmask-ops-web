@@ -113,7 +113,7 @@ const indexHtml = `<!DOCTYPE html>
   </div>
 
   <!-- Logs Card -->
-  <div class="card">
+  <div class="card" id="logsCard" style="display:none;">
     <div class="toolbar">
       <h2>Pod Log</h2>
       <div class="spacer"></div>
@@ -183,7 +183,10 @@ async function loadLogs() {
 // Initial load
 loadStatus();
 loadResources();
-loadLogs();
+if (new URLSearchParams(window.location.search).get('logs') === 'true') {
+  document.getElementById('logsCard').style.display = '';
+  loadLogs();
+}
 </script>
 </body>
 </html>`;
